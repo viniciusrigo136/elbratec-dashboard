@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect, useState } from "react"
@@ -12,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
 
 interface Training {
   id: number
@@ -27,14 +27,18 @@ interface Training {
   completionRate?: number
 }
 
-
-import { useToast } from "@/components/ui/use-toast"
-
-
-import { useToast } from "@/components/ui/use-toast"
-
 export function TrainingCenter() {
   const { toast } = useToast()
+
+  const [trainings, setTrainings] = useState<Training[]>([])
+  const [newTraining, setNewTraining] = useState<Partial<Training>>({})
+
+  useEffect(() => {
+    fetch("/data/trainings.json")
+      .then(res => res.json())
+      .then(data => setTrainings(data))
+      .catch(() => console.error("Erro ao carregar treinamentos"))
+  }, [])
 
   const handleDeleteTraining = (id: number) => {
     fetch("/api/delete-training", {
@@ -55,25 +59,11 @@ export function TrainingCenter() {
       })
   }
 
-  const { toast } = useToast()
-
-  const [trainings, setTrainings] = useState<Training[]>([])
-  const [newTraining, setNewTraining] = useState<Partial<Training>>({})
-
-  useEffect(() => {
-    fetch("/data/trainings.json")
-      .then(res => res.json())
-      .then(data => setTrainings(data))
-      .catch(() => console.error("Erro ao carregar treinamentos"))
-  }, [])
-
   const handleAddTraining = () => {
-
     if (!newTraining.title || !newTraining.videoUrl) {
       toast({ title: "Campos obrigatórios", description: "Título e URL do YouTube são obrigatórios.", variant: "destructive" });
       return;
     }
-
 
     const updated: Training = {
       id: Date.now(),
@@ -93,14 +83,12 @@ export function TrainingCenter() {
     setTrainings(novos)
     setNewTraining({})
 
-    // Atualização local apenas — precisa de backend ou API para persistência real
     fetch("/api/save-training", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated)
     })
       .then(res => {
-
         if (res.ok) {
           toast({ title: "Sucesso", description: "Treinamento adicionado com sucesso!" })
         } else {
@@ -159,7 +147,6 @@ export function TrainingCenter() {
               <Button variant="destructive" size="sm" onClick={() => handleDeleteTraining(t.id)}>
                 Excluir
               </Button>
-
             </CardContent>
           </Card>
         ))}
