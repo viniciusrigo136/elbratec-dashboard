@@ -42,17 +42,17 @@ export function TrainingCenter() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     })
-    .then(res => {
-      if (res.ok) {
-        setTrainings(prev => prev.filter(t => t.id !== id))
-        toast({ title: "Removido", description: "Treinamento excluído com sucesso." })
-      } else {
-        toast({ title: "Erro", description: "Erro ao excluir o treinamento.", variant: "destructive" })
-      }
-    })
-    .catch(() => {
-      toast({ title: "Erro", description: "Falha na comunicação com o servidor.", variant: "destructive" })
-    })
+      .then(res => {
+        if (res.ok) {
+          setTrainings(prev => prev.filter(t => t.id !== id))
+          toast({ title: "Removido", description: "Treinamento excluído com sucesso." })
+        } else {
+          toast({ title: "Erro", description: "Erro ao excluir o treinamento.", variant: "destructive" })
+        }
+      })
+      .catch(() => {
+        toast({ title: "Erro", description: "Falha na comunicação com o servidor.", variant: "destructive" })
+      })
   }
 
   const { toast } = useToast()
@@ -68,7 +68,7 @@ export function TrainingCenter() {
   }, [])
 
   const handleAddTraining = () => {
-    
+
     if (!newTraining.title || !newTraining.videoUrl) {
       toast({ title: "Campos obrigatórios", description: "Título e URL do YouTube são obrigatórios.", variant: "destructive" });
       return;
@@ -98,17 +98,18 @@ export function TrainingCenter() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated)
-    )
-    .then(res => {
-      if (res.ok) {
-        toast({ title: "Sucesso", description: "Treinamento adicionado com sucesso!" })
-      } else {
-        toast({ title: "Erro", description: "Erro ao salvar no servidor.", variant: "destructive" })
-      }
     })
-    .catch(() => {
-      toast({ title: "Erro", description: "Falha na comunicação com o servidor.", variant: "destructive" })
-    })
+      .then(res => {
+
+        if (res.ok) {
+          toast({ title: "Sucesso", description: "Treinamento adicionado com sucesso!" })
+        } else {
+          toast({ title: "Erro", description: "Erro ao salvar no servidor.", variant: "destructive" })
+        }
+      })
+      .catch(() => {
+        toast({ title: "Erro", description: "Falha na comunicação com o servidor.", variant: "destructive" })
+      })
   }
 
   return (
