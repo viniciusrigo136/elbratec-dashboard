@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Treinamento de Instalação de Painéis",
+    "description": "Aprenda a instalar painéis solares com segurança e eficiência.",
+    "category": "Instalação",
+    "type": "Vídeo",
+    "duration": "30min",
+    "instructor": "Carlos Silva",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "documents": [
+      "manual_instalacao.pdf"
+    ],
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg",
+    "completionRate": 45
+  }
+]
